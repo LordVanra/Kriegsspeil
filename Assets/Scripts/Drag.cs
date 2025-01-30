@@ -9,7 +9,7 @@ public class Drag : MonoBehaviour
     private Canvas canvas;
     private Vector2 clickPos;
     private Transform capsuleTransform;
-    private SpriteRenderer capsuleColor;
+    public SpriteRenderer capsuleColor;
 
     public float paceLeft = 3f; 
     public int speedMultiplier;
@@ -28,7 +28,7 @@ public class Drag : MonoBehaviour
         text1.alignment = TextAlignmentOptions.Center;
         text1.fontStyle = FontStyles.Bold;
 
-        capsuleColor.color = new Color(0f, 1f, 0f);
+        capsuleColor.color = new Color(0f, 1f, 0f, 1f);
         
         startPos = new Vector2(transform.position.x, transform.position.y);
     }
