@@ -7,12 +7,11 @@ public class Drag : MonoBehaviour
     private bool isDragging = false;
     private TextMeshProUGUI text1;
     private Canvas canvas;
-    private Vector2 clickPos;
     private Transform capsuleTransform;
-    public SpriteRenderer capsuleColor;
-
-    public float paceLeft = 3f; 
-    public int speedMultiplier;
+    private SpriteRenderer capsuleColor;
+    private const float MAXPACE = 3f;
+    public float paceLeft = MAXPACE; 
+    public int speedMultiplier = 1;
     public Vector2 startPos;
     public int troops;
     
@@ -35,9 +34,9 @@ public class Drag : MonoBehaviour
 
     void Update(){
         if(isDragging){
-            if(Vector2.Distance(GetMousePos(), startPos) < paceLeft * speedMultiplier + 2f){
+            if(Vector2.Distance(GetMousePos(), startPos) < MAXPACE){
                 transform.position = GetMousePos();
-                paceLeft = 3f-Vector2.Distance(transform.position, startPos);
+                // paceLeft = MAXPACE-Vector2.Distance(transform.position, startPos);
             }
             if(Input.GetKey(KeyCode.Q)){
                 transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z+0.5f);
@@ -52,6 +51,21 @@ public class Drag : MonoBehaviour
 
         capsuleTransform.transform.position = transform.position + new Vector3(-0.5f*Mathf.Sin(Mathf.Deg2Rad*transform.eulerAngles.z), 0.5f*Mathf.Cos(Mathf.Deg2Rad*transform.eulerAngles.z), 0f);
         capsuleTransform.transform.eulerAngles = transform.eulerAngles + new Vector3(0, 0, 90f);
+    }
+
+    public void resetInfo(){
+        // paceLeft = MAXPACE;
+        startPos = new Vector2(transform.position.x, transform.position.y);
+    }
+
+    public void updateTiredness(){
+        Color redden = capsuleColor.color;
+        redden += new Color(0.05f*(Vector2.Distance(transform.position, startPos)-1), -0.05f*(Vector2.Distance(transform.position, startPos)-1), 0f, 0f);
+        redden.a = 1f;
+        capsuleColor.color = redden;
+        if(capsuleColor.color.r < 0){
+            capsuleColor.color = new Color(0f, 1f, 0f, 1f);
+        }
     }
 
     private Vector2 GetMousePos(){
