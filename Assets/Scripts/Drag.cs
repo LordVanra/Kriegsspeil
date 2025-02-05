@@ -27,7 +27,7 @@ public class Drag : MonoBehaviour
         text1.alignment = TextAlignmentOptions.Center;
         text1.fontStyle = FontStyles.Bold;
 
-        capsuleColor.color = new Color(0f, 1f, 0f, 1f);
+        capsuleColor.color = new Color(0.1f, 0.9f, 0f, 1f);
         
         startPos = new Vector2(transform.position.x, transform.position.y);
     }
@@ -49,7 +49,7 @@ public class Drag : MonoBehaviour
         text1.transform.position = transform.position + new Vector3(-0.5f*Mathf.Sin(Mathf.Deg2Rad*transform.eulerAngles.z), 0.5f*Mathf.Cos(Mathf.Deg2Rad*transform.eulerAngles.z), 0f);
         text1.transform.eulerAngles = transform.eulerAngles;
 
-        capsuleTransform.transform.position = transform.position + new Vector3(-0.5f*Mathf.Sin(Mathf.Deg2Rad*transform.eulerAngles.z), 0.5f*Mathf.Cos(Mathf.Deg2Rad*transform.eulerAngles.z), 0f);
+        capsuleTransform.transform.position = transform.position + new Vector3(0.5f*Mathf.Sin(Mathf.Deg2Rad*transform.eulerAngles.z), -0.5f*Mathf.Cos(Mathf.Deg2Rad*transform.eulerAngles.z), 0f);
         capsuleTransform.transform.eulerAngles = transform.eulerAngles + new Vector3(0, 0, 90f);
     }
 
@@ -60,11 +60,14 @@ public class Drag : MonoBehaviour
 
     public void updateTiredness(){
         Color redden = capsuleColor.color;
-        redden += new Color(0.05f*(Vector2.Distance(transform.position, startPos)-1), -0.05f*(Vector2.Distance(transform.position, startPos)-1), 0f, 0f);
+        redden += new Color(0.12f*(Vector2.Distance(transform.position, startPos)-2), -0.12f*(Vector2.Distance(transform.position, startPos)-2), 0f, 0f);
         redden.a = 1f;
         capsuleColor.color = redden;
-        if(capsuleColor.color.r < 0){
-            capsuleColor.color = new Color(0f, 1f, 0f, 1f);
+        if(capsuleColor.color.r < 0.1){
+            capsuleColor.color = new Color(0.1f, 0.9f, 0f, 1f);
+        }
+        else if(capsuleColor.color.r > 0.9){
+            capsuleColor.color = new Color(0.9f, 0.1f, 0f, 1f);
         }
     }
 

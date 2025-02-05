@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9cc8cd4d3c4c33e4a9b8966d1b9dbf92
+guid: c1e6062a9aa542f41a8a0fec4a87aaa2
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -101306495237704701
-    second: top-view-grass-field-texture_0
+      213: -6243335043797815591
+    second: Antietam_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: top-view-grass-field-texture_0
+      name: Antietam_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 3400
-        height: 2267
+        width: 1166
+        height: 822
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 304bae18746189ef0800000000000000
-      internalID: -101306495237704701
+      spriteID: 9deeea43bd73b59a0800000000000000
+      internalID: -6243335043797815591
       vertices: []
       indices: 
       edges: []

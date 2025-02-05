@@ -102,7 +102,10 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    // void OnMouseDown(){
-    //     Debug.Log("Ow");
-    // }
+    public void OnSliderClick(){
+        
+        // Debug.Log(enable.value);
+        // enable.value = 1 - enable.value;
+        // Debug.Log(enable.value);
+    }
 }

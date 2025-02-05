@@ -20,7 +20,7 @@ public class ScrollToZoom2D : MonoBehaviour{
         if (scroll != 0)
         {
             cam.orthographicSize -= scroll * 2f;
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1f, 50f); // Clamp to min/max values
+            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1f, 40f); 
         }
 
          Vector2 movement = new Vector2(0f, 0f);
