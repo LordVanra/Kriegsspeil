@@ -23,7 +23,16 @@ public class Spawner : MonoBehaviour
     void Start(){
         enable = GetComponent<Slider>();
 
-        Debug.Log(enable);
+        GameObject[] blockArr =  new GameObject[20] {redInf, blueInf, yellowInf, purpleInf, redArt, blueArt, yellowArt, purpleArt, redGen, blueGen, yellowGen, purpleGen, redSkirm, blueSkirm, yellowSkirm, purpleSkirm, redCav, blueCav, yellowCav, purpleCav};
+
+        for(int i = 0; i < 16; i++){
+            try{
+                for(int j = 0; j < SceneChanger.spawnValues[i]; j++){
+                    newBlock = Instantiate(blockArr[i], new Vector2(0f, 0f), Quaternion.identity);
+                }
+            }
+            catch(System.NullReferenceException){}
+        }
     }
 
     void Update(){

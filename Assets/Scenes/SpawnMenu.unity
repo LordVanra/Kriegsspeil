@@ -1523,6 +1523,7 @@ GameObject:
   - component: {fileID: 265685165}
   - component: {fileID: 265685164}
   - component: {fileID: 265685163}
+  - component: {fileID: 265685167}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -1562,6 +1563,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 092c458350a1d404c8ad5baef19818e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputs:
+  - {fileID: 2068234690}
+  - {fileID: 640586240}
+  - {fileID: 276882748}
+  - {fileID: 101844693}
+  - {fileID: 1336509649}
+  - {fileID: 1168293863}
+  - {fileID: 1939892990}
+  - {fileID: 1089159563}
+  - {fileID: 1512114052}
+  - {fileID: 1655830783}
+  - {fileID: 510217956}
+  - {fileID: 760243822}
+  - {fileID: 859841094}
+  - {fileID: 972121767}
+  - {fileID: 1033752413}
+  - {fileID: 1947985097}
+  - {fileID: 1581580278}
+  - {fileID: 82258088}
+  - {fileID: 2094822080}
+  - {fileID: 938996479}
 --- !u!114 &265685164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1606,6 +1628,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 265685167}
+        m_TargetAssemblyTypeName: SaveLoadSystem, Assembly-CSharp
+        m_MethodName: SaveGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 265685163}
         m_TargetAssemblyTypeName: SceneChanger, Assembly-CSharp
         m_MethodName: openGame
@@ -1656,6 +1690,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 265685161}
   m_CullTransparentMesh: 1
+--- !u!114 &265685167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 265685161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6065b94e2dc6d9d458c259b65a227611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blocks: []
 --- !u!1 &276882746
 GameObject:
   m_ObjectHideFlags: 0
