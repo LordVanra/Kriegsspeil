@@ -1,8 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Spawner : MonoBehaviour
-{
+public class Spawner : MonoBehaviour{
     
     public GameObject redInf, blueInf, yellowInf, purpleInf, redArt, blueArt, yellowArt, purpleArt, redGen, blueGen, yellowGen, purpleGen, redSkirm, blueSkirm, yellowSkirm, purpleSkirm, redCav, blueCav, yellowCav, purpleCav;
     private enum blockTypes{
@@ -21,17 +20,26 @@ public class Spawner : MonoBehaviour
     private GameObject purpleToSpawn;
 
     void Start(){
+
         enable = GetComponent<Slider>();
 
         GameObject[] blockArr =  new GameObject[20] {redInf, blueInf, yellowInf, purpleInf, redArt, blueArt, yellowArt, purpleArt, redGen, blueGen, yellowGen, purpleGen, redSkirm, blueSkirm, yellowSkirm, purpleSkirm, redCav, blueCav, yellowCav, purpleCav};
 
+        destroyPrefabs();
+
+        float n = -15;
+
         for(int i = 0; i < 16; i++){
             try{
                 for(int j = 0; j < SceneChanger.spawnValues[i]; j++){
-                    newBlock = Instantiate(blockArr[i], new Vector2(0f, 0f), Quaternion.identity);
+                    newBlock = Instantiate(blockArr[i], new Vector2(n, 0f), Quaternion.identity);
+                    n += 1.5;
                 }
             }
             catch(System.NullReferenceException){}
+            catch(System.Exception e){
+                Debug.Log(e.Message);
+            }
         }
     }
 
@@ -116,5 +124,15 @@ public class Spawner : MonoBehaviour
         // Debug.Log(enable.value);
         // enable.value = 1 - enable.value;
         // Debug.Log(enable.value);
+    }
+    
+    private void destroyPrefabs(){
+        GameObject[] prefabs = GameObject.FindGameObjectsWithTag("Prefab");
+        Debug.Log(prefabs);
+        foreach (GameObject prefab in prefabs)
+        {
+            Debug.Log(prefab);
+            Destroy(prefab);
+        }
     }
 }

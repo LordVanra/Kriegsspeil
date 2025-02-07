@@ -3,17 +3,20 @@ using System.IO;
 using System.Collections.Generic;
 
 public class SaveLoadSystem : MonoBehaviour{
-    public List<Transform> blocks; 
+    private List<Transform> blocks; 
 
-    void Start(){
-        Transform[] transforms = FindObjectsByType<Transform>(FindObjectsSortMode.None);
-        foreach (Transform transform in transforms){
-            blocks.Add(transform);
+    void setupBlocks(){
+        if (FindObjectsByType<Transform>(FindObjectsSortMode.None) != null){
+            Transform[] transforms = FindObjectsByType<Transform>(FindObjectsSortMode.None);
+            foreach (Transform transform in transforms){
+                blocks.Add(transform);
+            }
         }
     }
 
-    public void SaveGame()
-    {
+    public void SaveGame(){
+        setupBlocks();
+
         List<GameInfo> blockDataList = new List<GameInfo>();
 
         foreach (Transform block in blocks)
@@ -30,8 +33,7 @@ public class SaveLoadSystem : MonoBehaviour{
     }
     
     [System.Serializable]
-    private class BlockDataList
-    {
+    private class BlockDataList{
         public List<GameInfo> blocks;
 
         public BlockDataList(List<GameInfo> blockList)

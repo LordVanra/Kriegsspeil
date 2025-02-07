@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: -1758810093914874842}
   m_Layer: 0
   m_Name: Blue Art
-  m_TagString: Untagged
+  m_TagString: Prefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -236,6 +236,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83516a58f92600542907cda0776a0a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  paceLeft: 3
+  speedMultiplier: 0
+  startPos: {x: 0, y: 0}
   troops: 15
 --- !u!1 &4661618223451889259
 GameObject:
