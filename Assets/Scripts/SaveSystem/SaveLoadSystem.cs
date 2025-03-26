@@ -9,6 +9,7 @@ public class SaveLoadSystem : MonoBehaviour{
         if (FindObjectsByType<Transform>(FindObjectsSortMode.None) != null){
             Transform[] transforms = FindObjectsByType<Transform>(FindObjectsSortMode.None);
             foreach (Transform transform in transforms){
+                Debug.Log(transform);
                 blocks.Add(transform);
             }
         }
@@ -23,13 +24,33 @@ public class SaveLoadSystem : MonoBehaviour{
         {
             Vector3 position = block.position;
             Quaternion rotation = block.rotation;
-            blockDataList.Add(new GameInfo(position, rotation));
+            string tag = block.gameObject.tag;
+            blockDataList.Add(new GameInfo(position, rotation, tag));
         }
-        
-        Debug.Log("Saving");
-        Debug.Log(Application.persistentDataPath);
+
         File.WriteAllText(Application.persistentDataPath + "/gameSave.json", JsonUtility.ToJson(new BlockDataList(blockDataList)));
-        Debug.Log("Saved");
+    }
+
+    public void LoadGame(){
+        string path = Application.persistentDataPath + "/gameSave.json";
+
+        if (File.Exists(path))
+        {
+            string json = File.ReadAllText(path);
+            BlockDataList blockDataList = JsonUtility.FromJson<BlockDataList>(json);
+
+            // Loop through all blocks and apply their saved position and rotation
+            for (int i = 0; i < blockDataList.blocks.Count; i++)
+            {
+                blocks[i].transform.position = blockDataList.blocks[i].position;
+                blocks[i].transform.rotation = blockDataList.blocks[i].rotation;
+                blocks[i].tag = blockDataList.blocks[i].tag;
+            }
+        }
+        else
+        {
+            Debug.Log("Save file not found!");
+        }
     }
     
     [System.Serializable]

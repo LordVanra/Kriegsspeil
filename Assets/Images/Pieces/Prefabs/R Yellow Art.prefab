@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: -1737760397328635254}
   - component: {fileID: 5308718226844376671}
   m_Layer: 0
-  m_Name: Yellow Art
-  m_TagString: Prefab
+  m_Name: R Yellow Art
+  m_TagString: Artillery
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -149,8 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83516a58f92600542907cda0776a0a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paceLeft: 3
-  speedMultiplier: 0
+  speedMultiplier: 1
   startPos: {x: 0, y: 0}
   troops: 15
 --- !u!1 &2109204064894863815

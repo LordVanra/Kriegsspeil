@@ -10,18 +10,12 @@ public class PassTurn : MonoBehaviour
         blocks = FindObjectsByType<Drag>(FindObjectsSortMode.None);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void NextTurn(){
+        blocks = FindObjectsByType<Drag>(FindObjectsSortMode.None);
         turn++;
         foreach(Drag block in blocks){
             block.updateTiredness();
             block.resetInfo();
         }
-        Debug.Log(turn);
     }
 }

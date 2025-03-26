@@ -10,10 +10,11 @@ public class Drag : MonoBehaviour
     private Transform capsuleTransform;
     private SpriteRenderer capsuleColor;
     private const float MAXPACE = 3f;
-    public float paceLeft = MAXPACE; 
+    private int roadMult = 1;
     public int speedMultiplier = 1;
     public Vector2 startPos;
     public int troops;
+
     
     public void Start(){
         canvas = GetComponentInChildren<Canvas>();
@@ -34,7 +35,13 @@ public class Drag : MonoBehaviour
 
     void Update(){
         if(isDragging){
-            if(Vector2.Distance(GetMousePos(), startPos) < MAXPACE){
+            if(Input.GetKey(KeyCode.LeftControl)){
+                roadMult = 2;
+            }
+            else{
+                roadMult = 1;
+            }
+            if(Vector2.Distance(GetMousePos(), startPos) < MAXPACE * speedMultiplier * roadMult){
                 transform.position = GetMousePos();
                 // paceLeft = MAXPACE-Vector2.Distance(transform.position, startPos);
             }

@@ -19,21 +19,24 @@ public class Spawner : MonoBehaviour{
     private GameObject yellowToSpawn;
     private GameObject purpleToSpawn;
 
+    void Awake(){
+        destroyPrefabs();
+    }
+
     void Start(){
 
         enable = GetComponent<Slider>();
 
         GameObject[] blockArr =  new GameObject[20] {redInf, blueInf, yellowInf, purpleInf, redArt, blueArt, yellowArt, purpleArt, redGen, blueGen, yellowGen, purpleGen, redSkirm, blueSkirm, yellowSkirm, purpleSkirm, redCav, blueCav, yellowCav, purpleCav};
 
-        destroyPrefabs();
 
-        float n = -15;
+        float n = -15f;
 
         for(int i = 0; i < 16; i++){
             try{
                 for(int j = 0; j < SceneChanger.spawnValues[i]; j++){
                     newBlock = Instantiate(blockArr[i], new Vector2(n, 0f), Quaternion.identity);
-                    n += 1.5;
+                    n += 1.5f;
                 }
             }
             catch(System.NullReferenceException){}
@@ -106,16 +109,16 @@ public class Spawner : MonoBehaviour{
             blockToSpawn = blockTypes.Infantry;
         }
         if(Input.GetKeyDown(KeyCode.H)){
-            blockToSpawn = blockTypes.Skirmisher;
+            blockToSpawn = blockTypes.Artillery;
         }
         if(Input.GetKeyDown(KeyCode.J)){
             blockToSpawn = blockTypes.Cavalry;
         }
         if(Input.GetKeyDown(KeyCode.K)){
-            blockToSpawn = blockTypes.Artillery;
+            blockToSpawn = blockTypes.Officer;
         }
         if(Input.GetKeyDown(KeyCode.L)){
-            blockToSpawn = blockTypes.Officer;
+            blockToSpawn = blockTypes.Skirmisher;
         }
     }
 
@@ -127,12 +130,13 @@ public class Spawner : MonoBehaviour{
     }
     
     private void destroyPrefabs(){
-        GameObject[] prefabs = GameObject.FindGameObjectsWithTag("Prefab");
-        Debug.Log(prefabs);
-        foreach (GameObject prefab in prefabs)
-        {
-            Debug.Log(prefab);
-            Destroy(prefab);
+        string[] tags = {"Infantry", "Artillery", "Cavalry", "Officer", "Skirmisher"};
+        for(int i = 0; i < 5; i++){
+            GameObject[] prefabs = GameObject.FindGameObjectsWithTag(tags[i]);
+            foreach (GameObject prefab in prefabs)
+            {
+                Destroy(prefab);
+            }
         }
     }
 }
