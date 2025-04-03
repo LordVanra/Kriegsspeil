@@ -12,9 +12,9 @@ public class Drag : MonoBehaviour
     private const float MAXPACE = 3f;
     private int roadMult = 1;
     public int speedMultiplier = 1;
+    public float disOrgMult = 1f;
     public Vector2 startPos;
     public int troops;
-
     
     public void Start(){
         canvas = GetComponentInChildren<Canvas>();
@@ -41,7 +41,7 @@ public class Drag : MonoBehaviour
             else{
                 roadMult = 1;
             }
-            if(Vector2.Distance(GetMousePos(), startPos) < MAXPACE * speedMultiplier * roadMult){
+            if(Vector2.Distance(GetMousePos(), startPos) < MAXPACE * speedMultiplier * roadMult * disOrgMult){
                 transform.position = GetMousePos();
                 // paceLeft = MAXPACE-Vector2.Distance(transform.position, startPos);
             }

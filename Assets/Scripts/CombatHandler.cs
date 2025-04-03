@@ -6,248 +6,280 @@ using System.Collections.Generic;
 
 public class CombatHandler : MonoBehaviour
 {
-  private List<GameObject> selectedObjects = new List<GameObject>();
-  private Slider enable;
-  private string attacker;
-
-  private struct Block
-  {
-    public int str;
-    public double dist;
-    public string type;
-    public Vector2 pos;
-
-    public Block(int st, double dis, string t, Vector2 p)
+    private List<GameObject> selectedObjects = new List<GameObject>();
+    private Slider enable;
+    private Slider inRiver;
+    private Slider againstRiver;
+    private Slider flanking;
+    private Slider topology;
+    private string attacker;
+    private GameObject defender;
+    private int advantages;
+    private bool disOrg = false;
+    private struct Block
     {
-      str = st;
-      dist = dis;
-      type = t;
-      pos = p;
-    }
-  }
+        public int str;
+        public double dist;
+        public string type;
+        public Vector2 pos;
 
-
-  private List<Block> attackers = new List<Block>();
-
-  void Start()
-  {
-    enable = GetComponent<Slider>();
-  }
-
-  void Update()
-  {
-
-    if (enable.value == 1f && Input.GetMouseButtonDown(0))
-    {
-      RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-      if (hit.collider != null)
-      {
-        GameObject clickedObject = hit.collider.gameObject;
-        if (!selectedObjects.Contains(clickedObject))
+        public Block(int st, double dis, string t, Vector2 p)
         {
-          SelectObject(clickedObject);
+            str = st;
+            dist = dis;
+            type = t;
+            pos = p;
         }
-      }
     }
-  }
 
-  void SelectObject(GameObject obj)
-  {
-    if (selectedObjects.Count == 0)
+    private GameObject combat;
+    private GameObject combatBG;
+    private GameObject mainCamera;
+    private Camera cameraObj;
+    private List<Block> attackers = new List<Block>();
+    private List<GameObject> fired = new List<GameObject>();
+
+    void Start()
     {
-      attacker = obj.name.Split(' ')[0];
-      selectedObjects.Add(obj);
+        enable = GetComponent<Slider>();
+
+        combat = GameObject.Find("CombatCanv");
+        combatBG = GameObject.Find("CombatBG");
+        mainCamera = GameObject.Find("Main Camera");
+        cameraObj = mainCamera.GetComponent<Camera>();
+
+        flanking = GameObject.Find("Flanking").GetComponent<Slider>();
+        topology = GameObject.Find("Topology").GetComponent<Slider>();
+        inRiver = GameObject.Find("InRiver").GetComponent<Slider>();
+        againstRiver = GameObject.Find("AgainstRiver").GetComponent<Slider>();
+
+        Debug.Log(GameObject.Find("Flanking").GetComponent<Slider>());
+
+        combat.SetActive(false);
+        combatBG.SetActive(false);
     }
-    else if (attacker == obj.name.Split(' ')[0])
+
+    void Update()
     {
-      selectedObjects.Add(obj);
-    }
-    else
-    {
-      for (int i = 0; i < selectedObjects.Count; i++)
-      {
-        GameObject currBlock = selectedObjects[i];
-        int health = int.Parse(currBlock.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text);
-        double dist = Vector2.Distance(currBlock.transform.position, obj.transform.position);
 
-        attackers.Add(new Block(health, dist, currBlock.name.Split(' ')[2], currBlock.transform.position));
-      }
-      obj.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text = doCombat(attackers.ToArray(), int.Parse(obj.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text), 0).ToString();
-      selectedObjects.Clear();
-      attackers.Clear();
-    }
-  }
-
-  int doCombat(Block[] attackers, int def, int adv)
-  {
-
-    adv += attackers.Length-1;
-
-    float mAttackers = 0;
-    float rAttackers = 0;
-    double distance = 0;
-    GameObject[] generals = GameObject.FindGameObjectsWithTag("Officer");
-    int c = 0;
-
-    foreach (Block block in attackers)
-    {
-      switch (block.type)
-      {
-        case "Inf(Clone)":
-          if (block.dist < 2)
-          {
-            mAttackers += block.str * 1.5f;
-          }
-          else
-          {
-            rAttackers += block.str * 1.5f;
-            distance += block.dist;
-            c++;
-          }
-
-          for(int i = 0; i < generals.Length; i++){
-            if(Vector2.Distance(block.pos, generals[i].transform.position)<3.5f){
-              adv++;
+        if (enable.value == 1f && Input.GetMouseButtonDown(0))
+        {
+            RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+            if (hit.collider != null)
+            {
+                GameObject clickedObject = hit.collider.gameObject;
+                if (!(selectedObjects.Contains(clickedObject) || fired.Contains(clickedObject)))
+                {
+                    SelectObject(clickedObject);
+                }
             }
-          }
-          break;
-
-        case "Art(Clone)":
-          rAttackers += block.str * 18f;
-          distance += block.dist;
-          c++;
-
-          for(int i = 0; i < generals.Length; i++){
-            if(Vector2.Distance(block.pos, generals[i].transform.position)<3.5f){
-              adv++;
-            }
-          }
-          break;
-
-        case "Cav(Clone)":
-          mAttackers += block.str * 4f;
-
-          for(int i = 0; i < generals.Length; i++){
-            if(Vector2.Distance(block.pos, generals[i].transform.position)<3.5f){
-              adv++;
-            }
-          }
-          break;
-
-        case "Off(Clone)":
-          mAttackers += block.str * 4f;
-          break;
-
-        case "Skirm(Clone)":
-          rAttackers += block.str * 1.5f;
-          distance += block.dist;
-          c++;
-
-          for(int i = 0; i < generals.Length; i++){
-            if(Vector2.Distance(block.pos, generals[i].transform.position)<7f){
-              adv++;
-            }
-          }
-          break;
-
-        default:
-          break;
-      }
+        }
     }
-    
-    distance /= c+0.01f;
-    rAttackers *= Mathf.Pow(1.1f, adv);
-    mAttackers *= Mathf.Pow(1.1f, adv);
-    Debug.Log(adv);
-    double rangedCasualties = Mathf.Pow((rAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * (Math.Exp(-distance / 15f) + 1f / ((4f*distance + 1f))) * 5f;
-    double meleeCasualties = Mathf.Pow((mAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * 10f;
-    double survivors = def - def * (rangedCasualties + meleeCasualties) * 0.01f;
-    if (survivors < 0)
+
+    public int getAdvantages(int attackers){
+        int adv = (int) (flanking.value + topology.value + againstRiver.value * attackers - inRiver.value);
+        if(defender.GetComponent<Drag>().disOrgMult == 0.5f){
+            adv += 1;
+        }
+        return adv;
+    }
+
+    public void formSubmit(){
+        advantages = getAdvantages(attackers.Count);
+
+        toggleCombat();
+
+        Debug.Log(advantages);
+
+        int newCount = doCombat(attackers.ToArray(), int.Parse(defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text), defender.name.Split(' ')[1], advantages);
+        if(defender.name.Split(' ')[1] == "Off(Clone)"){
+            int n = 0;
+            int m = int.Parse(defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text);
+            for(int i = 0; i < m - newCount; i++){
+                n = UnityEngine.Random.Range(1, m);
+                m--;
+                if(n == 1 || n == 2){
+                    Debug.Log("AE");
+                }
+            }
+        }
+        defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text = newCount.ToString();
+        if(disOrg){
+            defender.GetComponent<Drag>().disOrgMult = 0.5f;
+        }
+        else{
+            defender.GetComponent<Drag>().disOrgMult = 1f;
+        }
+
+        selectedObjects.Clear();
+        attackers.Clear();
+        disOrg = false;
+        advantages = 0;
+    }
+
+    public void clearCombat()
     {
-      survivors = 0;
+        fired.Clear();
     }
 
-    return (int)survivors;
-  }
+    void SelectObject(GameObject obj)
+    {
+        if (selectedObjects.Count == 0)
+        {
+            attacker = obj.name.Split(' ')[0];
+            selectedObjects.Add(obj);
+        }
+        else if (attacker == obj.name.Split(' ')[0])
+        {
+            selectedObjects.Add(obj);
+        }
+        else
+        {
+            for (int i = 0; i < selectedObjects.Count; i++)
+            {
+                GameObject currBlock = selectedObjects[i];
+                int health = int.Parse(currBlock.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text);
+                double dist = Vector2.Distance(currBlock.transform.position, obj.transform.position);
+
+                attackers.Add(new Block(health, dist, currBlock.name.Split(' ')[2], currBlock.transform.position));
+                fired.Add(currBlock);
+            }
+
+            defender = obj;
+            toggleCombat();
+        }
+    }
+
+    int doCombat(Block[] attackers, int def, string defType, int adv)
+    {
+
+        adv += attackers.Length - 1;
+
+        float mAttackers = 0;
+        float rAttackers = 0;
+        double distance = 0;
+        GameObject[] generals = GameObject.FindGameObjectsWithTag("Officer");
+        int c = 0;
+
+        foreach (Block block in attackers)
+        {
+            switch (block.type)
+            {
+                case "Inf(Clone)":
+                    if (block.dist < 2)
+                    {
+                        mAttackers += block.str * 1.5f;
+                        disOrg = true;
+                    }
+                    else
+                    {
+                        rAttackers += block.str * 1.5f;
+                        distance += block.dist;
+                        c++;
+                    }
+
+                    for (int i = 0; i < generals.Length; i++)
+                    {
+                        if (Vector2.Distance(block.pos, generals[i].transform.position) < 3.5f)
+                        {
+                            adv++;
+                        }
+                    }
+                    break;
+
+                case "Art(Clone)":
+                    rAttackers += block.str * 18f;
+                    distance += block.dist;
+                    if(block.dist < 17.5f){
+                        disOrg = true;
+                    }
+                    c++;
+
+                    for (int i = 0; i < generals.Length; i++)
+                    {
+                        if (Vector2.Distance(block.pos, generals[i].transform.position) < 3.5f)
+                        {
+                            adv++;
+                        }
+                    }
+                    break;
+
+                case "Cav(Clone)":
+                    mAttackers += block.str * 4f;
+                    disOrg = true;
+
+                    for (int i = 0; i < generals.Length; i++)
+                    {
+                        if (Vector2.Distance(block.pos, generals[i].transform.position) < 3.5f)
+                        {
+                            adv++;
+                        }
+                    }
+                    break;
+
+                case "Off(Clone)":
+                    mAttackers += block.str * 4f;
+                    break;
+
+                case "Skirm(Clone)":
+                    rAttackers += block.str * 1.5f;
+                    distance += block.dist;
+                    c++;
+
+                    for (int i = 0; i < generals.Length; i++)
+                    {
+                        if (Vector2.Distance(block.pos, generals[i].transform.position) < 7f)
+                        {
+                            adv++;
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        Debug.Log(disOrg);
+        distance /= c + 0.01f;
+        rAttackers *= Mathf.Pow(1.1f, adv);
+        mAttackers *= Mathf.Pow(1.1f, adv);
+        double rangedCasualties = Mathf.Pow((rAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * (Math.Exp(-distance / 15f) + 1f / ((4f * distance + 1f))) * 5f;
+        double meleeCasualties = Mathf.Pow((mAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * 10f;
+        double survivors = def - def * (rangedCasualties + meleeCasualties) * 0.01f;
+
+        float threshold = 0f;
+        switch (defType)
+        {
+            case "Inf":
+                threshold = 60f;
+                break;
+            case "Art":
+                threshold = 7f;
+                break;
+            case "Cav":
+                threshold = 30f;
+                break;
+            case "Off":
+                threshold = 22f;
+                break;
+            case "Skirm":
+                threshold = 40f;
+                break;
+        }
+
+        if (survivors < threshold * Mathf.Pow(1.1f, -adv))
+        {
+            survivors = 0;
+        }
+
+        return (int)survivors;
+    }
+
+    public void toggleCombat()
+    {
+        combat.SetActive(!combat.activeSelf);
+        combatBG.SetActive(!combatBG.activeSelf);
+
+        CameraBehavior.combatClosed = !CameraBehavior.combatClosed;
+    }
 }
-
-/**
-
-    
-def checkInput(phrase, valids):
-  answer = input(phrase)
-  while answer not in valids:
-    print("Invalid input")
-    answer = input(phrase)
-  return answer
-  
-def calcDamage(attackers, defender, attackerType, distance):
-  baseCasualties = ((attackers/defender)**0.8)*15*(0.1*randint(1, 6)+0.6)*typeToMult(attackerType)
-  totalCasualties = baseCasualties*((e**(-distance/200))+1/(5*(distance+5)))
-
-  defender -= defender*totalCasualties*0.01
-  if defender<0:
-    defender = 0
-  return round(defender)
-
-def doBattle():
-  
-  side = int(checkInput("Attacking Side: ", ["0","1"]))
-  typeStr = checkInput("Attacking Type: ", ["i", "c", "a", "o", "s"])
-  type = typeToIndex(typeStr)
-  
-  attackers = []
-  attackers.append(input("Add a battalion: "))
-  while attackers[-1] != "q":
-    try:
-      int(attackers[-1])
-    except ValueError:
-      attackers.pop()
-      print("Invalid entry")
-    attackers.append(input("Add a battalion: "))
-    if(attackers[-1] in attackers[:-1]):
-      attackers.pop()
-      print("Already added battalion")
-  attackers.pop()
-  targetType = typeToIndex(checkInput("Defending Type: ", ["i", "c", "a", "o", "s"]))
-  target = int(input("Target: "))-1
-  totalAttackers = 0
-  for i in attackers:
-    totalAttackers += troops[side][type][int(i)-1]
-    
-  defenders = troops[1-side][targetType][target]
-    
-  while True:
-    try:
-      distance = int(input("Distance: "))
-    except ValueError:
-      print("Invalid input")
-    finally:
-      break
-
-  advantages = 1.3**int(input("Number of Advantages: "))
-
-  if typeStr == "i":
-    mult = 1
-    dMult = 1
-  if typeStr == "a":
-    mult = 3.5
-    totalAttackers = 3*(totalAttackers//3)
-    dMult = 0.5
-  if typeStr == "c" or typeStr == "o":
-    mult = 2
-    dMult = 15
-  if typeStr == "s":
-    mult = 1
-    dMult = 0.6
-      
-  endDefenders = calcDamage(totalAttackers*mult*advantages, defenders, typeStr, distance*dMult)
-  print(f"{totalAttackers} troops fired at {defenders} troops at a distance of {distance} meters and caused {defenders-endDefenders} deaths, resulting in them having {endDefenders} troops")
-  
-  troops[1-side][targetType][target] = endDefenders
-  print(troops)
-  return endDefenders
-
-while True:
-  doBattle()
-**/

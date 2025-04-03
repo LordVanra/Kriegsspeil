@@ -5,7 +5,6 @@ public class PassTurn : MonoBehaviour
 
     private int turn = 1;
     private Drag[] blocks;
-
     void Start(){
         blocks = FindObjectsByType<Drag>(FindObjectsSortMode.None);
     }
