@@ -53,14 +53,13 @@ public class CombatHandler : MonoBehaviour
         inRiver = GameObject.Find("InRiver").GetComponent<Slider>();
         againstRiver = GameObject.Find("AgainstRiver").GetComponent<Slider>();
 
-        Debug.Log(GameObject.Find("Flanking").GetComponent<Slider>());
-
         combat.SetActive(false);
         combatBG.SetActive(false);
     }
 
     void Update()
     {
+        combatBG.transform.localScale = new Vector3(2.8f * cameraObj.orthographicSize, 1.4f * cameraObj.orthographicSize, 1f);
 
         if (enable.value == 1f && Input.GetMouseButtonDown(0))
         {
@@ -68,7 +67,7 @@ public class CombatHandler : MonoBehaviour
             if (hit.collider != null)
             {
                 GameObject clickedObject = hit.collider.gameObject;
-                if (!(selectedObjects.Contains(clickedObject) || fired.Contains(clickedObject)))
+                if (!(selectedObjects.Contains(clickedObject)))
                 {
                     SelectObject(clickedObject);
                 }
@@ -88,8 +87,6 @@ public class CombatHandler : MonoBehaviour
         advantages = getAdvantages(attackers.Count);
 
         toggleCombat();
-
-        Debug.Log(advantages);
 
         int newCount = doCombat(attackers.ToArray(), int.Parse(defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text), defender.name.Split(' ')[1], advantages);
         if(defender.name.Split(' ')[1] == "Off(Clone)"){
@@ -119,21 +116,22 @@ public class CombatHandler : MonoBehaviour
 
     public void clearCombat()
     {
+        selectedObjects.Clear();
         fired.Clear();
     }
 
     void SelectObject(GameObject obj)
     {
-        if (selectedObjects.Count == 0)
+        if (selectedObjects.Count == 0 && !fired.Contains(obj))
         {
             attacker = obj.name.Split(' ')[0];
             selectedObjects.Add(obj);
         }
-        else if (attacker == obj.name.Split(' ')[0])
+        else if (attacker == obj.name.Split(' ')[0] && !fired.Contains(obj))
         {
             selectedObjects.Add(obj);
         }
-        else
+        else if(selectedObjects.Count != 0)
         {
             for (int i = 0; i < selectedObjects.Count; i++)
             {
@@ -143,10 +141,15 @@ public class CombatHandler : MonoBehaviour
 
                 attackers.Add(new Block(health, dist, currBlock.name.Split(' ')[2], currBlock.transform.position));
                 fired.Add(currBlock);
+                //Debug.Log(currBlock);
             }
 
             defender = obj;
+            //Debug.Log(fired.Contains(defender));
             toggleCombat();
+
+            flanking.maxValue = topology.maxValue = inRiver.maxValue = selectedObjects.Count;
+
         }
     }
 
@@ -239,7 +242,6 @@ public class CombatHandler : MonoBehaviour
                     break;
             }
         }
-        Debug.Log(disOrg);
         distance /= c + 0.01f;
         rAttackers *= Mathf.Pow(1.1f, adv);
         mAttackers *= Mathf.Pow(1.1f, adv);

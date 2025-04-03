@@ -22,7 +22,7 @@ public class SettingsManager : MonoBehaviour
     void Update()
     {
         settingsBG.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z + 2f);
-        settingsBG.transform.localScale = new Vector3(3f * cameraObj.orthographicSize, 1.5f * cameraObj.orthographicSize, 1f);
+        settingsBG.transform.localScale = new Vector3(2.8f * cameraObj.orthographicSize, 1.4f * cameraObj.orthographicSize, 1f);
 
         if (Input.GetKey(KeyCode.Escape))
         {
@@ -34,6 +34,9 @@ public class SettingsManager : MonoBehaviour
     {
         settings.SetActive(!settings.activeSelf);
         settingsBG.SetActive(!settingsBG.activeSelf);
+        if(GameObject.Find("CombatCanv")){
+            GameObject.Find("Combat").GetComponent<CombatHandler>().toggleCombat();
+        }
 
         CameraBehavior.settingsClosed = !CameraBehavior.settingsClosed;
     }

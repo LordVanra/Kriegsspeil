@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class Drag : MonoBehaviour
@@ -34,7 +35,7 @@ public class Drag : MonoBehaviour
     }
 
     void Update(){
-        if(isDragging){
+        if(isDragging && GameObject.Find("Combat").GetComponent<Slider>().value == 0f){
             if(Input.GetKey(KeyCode.LeftControl)){
                 roadMult = 2;
             }

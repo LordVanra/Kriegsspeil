@@ -15,6 +15,7 @@ public class PassTurn : MonoBehaviour
         foreach(Drag block in blocks){
             block.updateTiredness();
             block.resetInfo();
+            GameObject.Find("Combat").GetComponent<CombatHandler>().clearCombat();
         }
     }
 }

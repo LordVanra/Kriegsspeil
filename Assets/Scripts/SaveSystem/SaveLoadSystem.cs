@@ -44,7 +44,7 @@ public class SaveLoadSystem : MonoBehaviour{
             {
                 blocks[i].transform.position = blockDataList.blocks[i].position;
                 blocks[i].transform.rotation = blockDataList.blocks[i].rotation;
-                blocks[i].tag = blockDataList.blocks[i].tag;
+                blocks[i].tag = blockDataList.blocks[i].type;
             }
         }
         else
