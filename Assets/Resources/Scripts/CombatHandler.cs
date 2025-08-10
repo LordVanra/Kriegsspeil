@@ -59,6 +59,7 @@ public class CombatHandler : MonoBehaviour
 
     void Update()
     {
+        combatBG.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z + 2f);
         combatBG.transform.localScale = new Vector3(2.8f * cameraObj.orthographicSize, 1.4f * cameraObj.orthographicSize, 1f);
 
         if (enable.value == 1f && Input.GetMouseButtonDown(0))
