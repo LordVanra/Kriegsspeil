@@ -3,15 +3,30 @@ using TMPro;
 using System.IO;
 using System.Collections.Generic;
 
-public class SaveLoadSystem : MonoBehaviour{
-    private List<Transform> blocks = new List<Transform>(); 
+public class SaveLoadSystem : MonoBehaviour
+{
+    private List<Transform> blocks = new List<Transform>();
 
-    void setupBlocks(){
-        if (FindObjectsByType<Transform>(FindObjectsSortMode.None) != null){
+    GameObject menu;
+    GameObject desktop;
+
+    void Start()
+    {
+        menu = GameObject.Find("ToMenu");
+        desktop = GameObject.Find("ToDesktop");
+    }
+
+    void setupBlocks()
+    {
+        if (FindObjectsByType<Transform>(FindObjectsSortMode.None) != null)
+        {
             Transform[] transforms = FindObjectsByType<Transform>(FindObjectsSortMode.None);
-            if(transforms != null){
-                foreach (Transform transform in transforms){
-                    if(transform.gameObject.name.Split(' ')[0] == "R" || transform.gameObject.name.Split(' ')[0] == "B"){
+            if (transforms != null)
+            {
+                foreach (Transform transform in transforms)
+                {
+                    if (transform.gameObject.name.Split(' ')[0] == "R" || transform.gameObject.name.Split(' ')[0] == "B")
+                    {
                         blocks.Add(transform);
                     }
                 }
@@ -19,12 +34,14 @@ public class SaveLoadSystem : MonoBehaviour{
         }
     }
 
-    public void SaveGame(){
+    public void SaveGame()
+    {
         setupBlocks();
 
         List<GameInfo> blockDataList = new List<GameInfo>();
 
-        if(blocks != null){
+        if (blocks != null)
+        {
             foreach (Transform block in blocks)
             {
                 Vector3 position = block.position;
@@ -41,7 +58,8 @@ public class SaveLoadSystem : MonoBehaviour{
         blocks = new List<Transform>();
     }
 
-    public void LoadGame(){
+    public void LoadGame()
+    {
         destroyPrefabs();
         string path = Application.persistentDataPath + "/gameSave.json";
 
@@ -68,7 +86,6 @@ public class SaveLoadSystem : MonoBehaviour{
 
                 b.gameObject.GetComponent<Drag>().loaded = true;
                 b.GetComponentsInChildren<SpriteRenderer>()[1].color = block.tiredness.color;
-                Debug.Log(b.GetComponentsInChildren<SpriteRenderer>()[1].color);
 
                 b.gameObject.GetComponentInChildren<TextMeshProUGUI>(true).text = block.health;
                 b.gameObject.GetComponent<Drag>().troops = int.Parse(block.health);
@@ -80,9 +97,11 @@ public class SaveLoadSystem : MonoBehaviour{
         }
     }
 
-    private void destroyPrefabs(){
-        string[] tags = {"Infantry", "Artillery", "Cavalry", "Officer", "Skirmisher"};
-        for(int i = 0; i < 5; i++){
+    private void destroyPrefabs()
+    {
+        string[] tags = { "Infantry", "Artillery", "Cavalry", "Officer", "Skirmisher" };
+        for (int i = 0; i < 5; i++)
+        {
             GameObject[] prefabs = GameObject.FindGameObjectsWithTag(tags[i]);
             foreach (GameObject prefab in prefabs)
             {
@@ -90,9 +109,16 @@ public class SaveLoadSystem : MonoBehaviour{
             }
         }
     }
-    
+
+    public void saveAndQuit()
+    {
+        menu.SetActive(!menu.activeSelf);
+        desktop.SetActive(!desktop.activeSelf);
+    }
+
     [System.Serializable]
-    private class BlockDataList{
+    private class BlockDataList
+    {
         public List<GameInfo> blocks;
 
         public BlockDataList(List<GameInfo> blockList)
@@ -100,5 +126,6 @@ public class SaveLoadSystem : MonoBehaviour{
             blocks = blockList;
         }
     }
+    
 
 }

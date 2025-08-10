@@ -60,7 +60,7 @@ public class CombatHandler : MonoBehaviour
     void Update()
     {
         combatBG.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z + 2f);
-        combatBG.transform.localScale = new Vector3(2.8f * cameraObj.orthographicSize, 1.4f * cameraObj.orthographicSize, 1f);
+        combatBG.transform.localScale = new Vector3(0.2f * cameraObj.orthographicSize, 0.15f * cameraObj.orthographicSize, 1f);
 
         if (enable.value == 1f && Input.GetMouseButtonDown(0))
         {
@@ -109,6 +109,18 @@ public class CombatHandler : MonoBehaviour
             defender.GetComponent<Drag>().disOrgMult = 1f;
         }
 
+        foreach (var block in attackers){
+            Collider2D[] hits = Physics2D.OverlapPointAll(block.pos);
+            foreach (var hit in hits){
+                Drag drag = hit.GetComponent<Drag>();
+                if(drag != null && hit.name.Contains(block.type)){
+                    drag.shots -= 1;
+                    drag.ammoColor.color += new Color(0.8f/drag.MAXSHOTS, -0.8f/drag.MAXSHOTS, 0f, 0f);
+                    break; 
+                }
+            }
+        }
+
         selectedObjects.Clear();
         attackers.Clear();
         disOrg = false;
@@ -137,11 +149,13 @@ public class CombatHandler : MonoBehaviour
             for (int i = 0; i < selectedObjects.Count; i++)
             {
                 GameObject currBlock = selectedObjects[i];
-                int health = int.Parse(currBlock.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text);
-                double dist = Vector2.Distance(currBlock.transform.position, obj.transform.position);
+                if (currBlock.GetComponent<Drag>().shots > 0) { 
+                    int health = int.Parse(currBlock.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text);
+                    double dist = Vector2.Distance(currBlock.transform.position, obj.transform.position);
 
-                attackers.Add(new Block(health, dist, currBlock.name.Split(' ')[2], currBlock.transform.position));
-                fired.Add(currBlock);
+                    attackers.Add(new Block(health, dist, currBlock.name.Split(' ')[2], currBlock.transform.position));
+                    fired.Add(currBlock);
+                }
                 //Debug.Log(currBlock);
             }
 

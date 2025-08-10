@@ -38,6 +38,12 @@ public class SettingsManager : MonoBehaviour
             GameObject.Find("Combat").GetComponent<CombatHandler>().toggleCombat();
         }
 
+        GameObject menu = GameObject.Find("ToMenu");
+        GameObject desktop = GameObject.Find("ToDesktop");
+
+        menu.SetActive(false);
+        desktop.SetActive(false);
+
         CameraBehavior.settingsClosed = !CameraBehavior.settingsClosed;
     }
 
