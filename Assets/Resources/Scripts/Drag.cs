@@ -80,7 +80,7 @@ public class Drag : MonoBehaviour
             {
                 roadMult = 1;
             }
-            if (Vector2.Distance(GetMousePos(), startPos) < MAXPACE * speedMultiplier * roadMult * disOrgMult)
+            if (Vector2.Distance(GetMousePos(), startPos) < MAXPACE * speedMultiplier * roadMult * disOrgMult || GameObject.Find("PassTurn").GetComponent<PassTurn>().turn == 1)
             {
                 transform.position = GetMousePos();
                 // paceLeft = MAXPACE-Vector2.Distance(transform.position, startPos);

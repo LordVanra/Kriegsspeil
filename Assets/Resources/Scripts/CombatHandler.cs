@@ -74,6 +74,11 @@ public class CombatHandler : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKey(KeyCode.Escape) && combat.activeSelf)
+        {
+            toggleCombat();
+        }
     }
 
     public int getAdvantages(int attackers){

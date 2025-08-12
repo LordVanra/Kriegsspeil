@@ -32,16 +32,25 @@ public class Spawner : MonoBehaviour{
 
         float n = -15f;
 
-        for(int i = 0; i < 16; i++){
-            try{
-                for(int j = 0; j < SceneChanger.spawnValues[i]; j++){
-                    newBlock = Instantiate(blockArr[i], new Vector2(n, 0f), Quaternion.identity);
-                    n += 1.5f;
+        if (this.name == "Spawn")
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                try
+                {
+                    for (int j = 0; j < SceneChanger.spawnValues[i]; j++)
+                    {
+                        Debug.Log("J" + j);
+                        Debug.Log("SpawnVal" + SceneChanger.spawnValues[i]);
+                        newBlock = Instantiate(blockArr[i], new Vector2(n, 0f), Quaternion.identity);
+                        n += 1.5f;
+                    }
                 }
-            }
-            catch(System.NullReferenceException){}
-            catch(System.Exception e){
-                Debug.Log(e.Message);
+                catch (System.NullReferenceException) { }
+                catch (System.Exception e)
+                {
+                    Debug.Log(e.Message);
+                }
             }
         }
     }

@@ -7,14 +7,10 @@ public class SaveLoadSystem : MonoBehaviour
 {
     private List<Transform> blocks = new List<Transform>();
 
-    GameObject menu;
-    GameObject desktop;
-
-    void Start()
-    {
-        menu = GameObject.Find("ToMenu");
-        desktop = GameObject.Find("ToDesktop");
-    }
+    public GameObject menu;
+    public GameObject desktop;
+    public GameObject backPanel;
+    public GameObject quit;
 
     void setupBlocks()
     {
@@ -114,6 +110,8 @@ public class SaveLoadSystem : MonoBehaviour
     {
         menu.SetActive(!menu.activeSelf);
         desktop.SetActive(!desktop.activeSelf);
+        backPanel.SetActive(!backPanel.activeSelf);
+        quit.SetActive(!quit.activeSelf);
     }
 
     [System.Serializable]

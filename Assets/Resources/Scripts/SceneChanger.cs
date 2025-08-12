@@ -16,18 +16,21 @@ public class SceneChanger : MonoBehaviour
         bg = GameObject.Find("MainBackground");
 
         int a = Random.Range(0, 5);
-        Debug.Log(bg.GetComponent<SpriteRenderer>().sprite);
         bg.GetComponent<SpriteRenderer>().sprite = menus[a];
 
     }
 
-    private void collectInputs()
+    private bool collectInputs()
     {
         for (int i = 0; i < inputs.Length; i++)
         {
             try
             {
                 spawnValues[i] = int.Parse(inputs[i].text);
+                if (spawnValues[i] < 0)
+                {
+                    return false;
+                }
             }
             catch (System.NullReferenceException)
             {
@@ -39,12 +42,19 @@ public class SceneChanger : MonoBehaviour
                 Debug.Log(e.Message);
             }
         }
+        return true;
     }
 
     public void openGame()
     {
-        collectInputs();
-        SceneManager.LoadScene("Scenes/Game");
+        if (collectInputs())
+        {
+            SceneManager.LoadScene("Scenes/Game");
+        }
+        else
+        {
+            Debug.Log("Bad Input");
+        }
     }
 
     public void openSpawner()

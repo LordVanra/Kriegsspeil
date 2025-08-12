@@ -10,23 +10,29 @@ public class SettingsManager : MonoBehaviour
 
     void Start()
     {
+       
         settings = GameObject.Find("Settings");
         settingsBG = GameObject.Find("SettingsBG");
         mainCamera = GameObject.Find("Main Camera");
         cameraObj = mainCamera.GetComponent<Camera>();
-
-        settings.SetActive(false);
-        settingsBG.SetActive(false);
+        if (this.name == "Button")
+        {
+            settings.SetActive(false);
+            settingsBG.SetActive(false);
+        }
     }
 
     void Update()
     {
-        settingsBG.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z + 2f);
-        settingsBG.transform.localScale = new Vector3(0.2f * cameraObj.orthographicSize, 0.15f * cameraObj.orthographicSize, 1f);
-
-        if (Input.GetKey(KeyCode.Escape))
+        if (this.name == "Button")
         {
-            toggleSettings();
+            settingsBG.transform.position = new Vector3(mainCamera.transform.position.x, mainCamera.transform.position.y, mainCamera.transform.position.z + 2f);
+            settingsBG.transform.localScale = new Vector3(0.2f * cameraObj.orthographicSize, 0.15f * cameraObj.orthographicSize, 1f);
+
+            if (Input.GetKey(KeyCode.Escape) && settings.activeSelf)
+            {
+                toggleSettings();
+            }
         }
     }
 
@@ -37,14 +43,12 @@ public class SettingsManager : MonoBehaviour
         if(GameObject.Find("CombatCanv")){
             GameObject.Find("Combat").GetComponent<CombatHandler>().toggleCombat();
         }
-
-        GameObject menu = GameObject.Find("ToMenu");
-        GameObject desktop = GameObject.Find("ToDesktop");
-
-        menu.SetActive(false);
-        desktop.SetActive(false);
-
         CameraBehavior.settingsClosed = !CameraBehavior.settingsClosed;
+
+        GameObject.Find("ToMenu").SetActive(false);
+        GameObject.Find("ToDesktop").SetActive(false);
+        GameObject.Find("SaveQuitBG").SetActive(false);
+        GameObject.Find("SaveQuitX").SetActive(false);
     }
 
 }
