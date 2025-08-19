@@ -1584,6 +1584,12 @@ MonoBehaviour:
   - {fileID: 82258088}
   - {fileID: 2094822080}
   - {fileID: 938996479}
+  menus:
+  - {fileID: -855298285791758126, guid: b7f943e1005a8ad49a0f25ba81bc529f, type: 3}
+  - {fileID: 6937817954938267909, guid: 6481cc1661818084f93710dc9e732f7b, type: 3}
+  - {fileID: -6470460504253458178, guid: c164eebaac5871b4984a6614564318c6, type: 3}
+  - {fileID: -4178046375966092550, guid: 3558fd62fe41d064e87a6d9f445e4a5d, type: 3}
+  - {fileID: 4130640169021434097, guid: 008eca0b2a7c45c4fab0fa4e9013d707, type: 3}
 --- !u!114 &265685164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1690,6 +1696,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6065b94e2dc6d9d458c259b65a227611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu: {fileID: 0}
+  desktop: {fileID: 0}
+  backPanel: {fileID: 0}
+  quit: {fileID: 0}
 --- !u!1 &276882746
 GameObject:
   m_ObjectHideFlags: 0
@@ -3381,6 +3391,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6065b94e2dc6d9d458c259b65a227611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  menu: {fileID: 0}
+  desktop: {fileID: 0}
+  backPanel: {fileID: 0}
+  quit: {fileID: 0}
 --- !u!114 &546398765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3414,6 +3428,12 @@ MonoBehaviour:
   - {fileID: 82258088}
   - {fileID: 2094822080}
   - {fileID: 938996479}
+  menus:
+  - {fileID: -855298285791758126, guid: b7f943e1005a8ad49a0f25ba81bc529f, type: 3}
+  - {fileID: 6937817954938267909, guid: 6481cc1661818084f93710dc9e732f7b, type: 3}
+  - {fileID: -6470460504253458178, guid: c164eebaac5871b4984a6614564318c6, type: 3}
+  - {fileID: -4178046375966092550, guid: 3558fd62fe41d064e87a6d9f445e4a5d, type: 3}
+  - {fileID: 4130640169021434097, guid: 008eca0b2a7c45c4fab0fa4e9013d707, type: 3}
 --- !u!114 &546398766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12291,7 +12311,7 @@ GameObject:
   - component: {fileID: 1939553655}
   - component: {fileID: 1939553654}
   m_Layer: 0
-  m_Name: Antietam_0
+  m_Name: MainBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12361,8 +12381,8 @@ Transform:
   m_GameObject: {fileID: 1939553653}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.4935, y: 1.2777, z: 0}
-  m_LocalScale: {x: 3.4273763, y: 3.2295089, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.95, y: 0.95, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
