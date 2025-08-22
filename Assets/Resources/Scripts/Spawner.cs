@@ -18,6 +18,7 @@ public class Spawner : MonoBehaviour{
     private GameObject blueToSpawn;
     private GameObject yellowToSpawn;
     private GameObject purpleToSpawn;
+    private FogMask maskScript;
 
     void Awake(){
         destroyPrefabs();
@@ -27,6 +28,8 @@ public class Spawner : MonoBehaviour{
 
         enable = GetComponent<Slider>();
 
+        maskScript = GameObject.Find("Fog").GetComponent<FogMask>();
+
         GameObject[] blockArr =  new GameObject[20] {redInf, blueInf, yellowInf, purpleInf, redArt, blueArt, yellowArt, purpleArt, redGen, blueGen, yellowGen, purpleGen, redSkirm, blueSkirm, yellowSkirm, purpleSkirm, redCav, blueCav, yellowCav, purpleCav};
 
 
@@ -34,14 +37,13 @@ public class Spawner : MonoBehaviour{
 
         if (this.name == "Spawn")
         {
-            for (int i = 0; i < 16; i++)
+            for (int i = 0; i < 20; i++)
             {
                 try
                 {
+                    Debug.Log(blockArr[i]);
                     for (int j = 0; j < SceneChanger.spawnValues[i]; j++)
                     {
-                        Debug.Log("J" + j);
-                        Debug.Log("SpawnVal" + SceneChanger.spawnValues[i]);
                         newBlock = Instantiate(blockArr[i], new Vector2(n, 0f), Quaternion.identity);
                         n += 1.5f;
                     }
@@ -91,17 +93,29 @@ public class Spawner : MonoBehaviour{
         
         if(enable.value == 1){
 
-            if(Input.GetKeyDown(KeyCode.Alpha1)){
-                newBlock = Instantiate(redToSpawn, new Vector2(GetMousePos().x, GetMousePos().y), Quaternion.identity);
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                newBlock = Instantiate(redToSpawn, new Vector2(0,0), Quaternion.identity);
+                maskScript.visionSources.Add(newBlock);
+                newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
-            if(Input.GetKeyDown(KeyCode.Alpha2)){
-                newBlock = Instantiate(blueToSpawn, new Vector2(GetMousePos().x, GetMousePos().y), Quaternion.identity);
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                newBlock = Instantiate(blueToSpawn, new Vector2(0,0), Quaternion.identity);
+                maskScript.visionSources.Add(newBlock);
+                newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
-            if(Input.GetKeyDown(KeyCode.Alpha3)){
-                newBlock = Instantiate(yellowToSpawn, new Vector2(GetMousePos().x, GetMousePos().y), Quaternion.identity);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                newBlock = Instantiate(yellowToSpawn, new Vector2(0,0), Quaternion.identity);
+                maskScript.visionSources.Add(newBlock);
+                newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
-            if(Input.GetKeyDown(KeyCode.Alpha4)){
-                newBlock = Instantiate(purpleToSpawn, new Vector2(GetMousePos().x, GetMousePos().y), Quaternion.identity);
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                newBlock = Instantiate(purpleToSpawn, new Vector2(0,0), Quaternion.identity);
+                maskScript.visionSources.Add(newBlock);
+                newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
 
         }
