@@ -70,7 +70,7 @@ public class Drag : MonoBehaviour
 
     void Update()
     {
-        if (isDragging && GameObject.Find("Combat").GetComponent<Slider>().value == 0f)
+        if (isDragging && GameObject.Find("Combat").GetComponent<Slider>().value == 0f &&  GameObject.Find("FogMode").GetComponent<Slider>().value == 1f)
         {
             if (Input.GetKey(KeyCode.LeftControl))
             {

@@ -41,7 +41,6 @@ public class Spawner : MonoBehaviour{
             {
                 try
                 {
-                    Debug.Log(blockArr[i]);
                     for (int j = 0; j < SceneChanger.spawnValues[i]; j++)
                     {
                         newBlock = Instantiate(blockArr[i], new Vector2(n, 0f), Quaternion.identity);
@@ -96,25 +95,25 @@ public class Spawner : MonoBehaviour{
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 newBlock = Instantiate(redToSpawn, new Vector2(0,0), Quaternion.identity);
-                maskScript.visionSources.Add(newBlock);
+                maskScript.visionSourcesRed.Add(newBlock);
                 newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
                 newBlock = Instantiate(blueToSpawn, new Vector2(0,0), Quaternion.identity);
-                maskScript.visionSources.Add(newBlock);
+                maskScript.visionSourcesRed.Add(newBlock);
                 newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
                 newBlock = Instantiate(yellowToSpawn, new Vector2(0,0), Quaternion.identity);
-                maskScript.visionSources.Add(newBlock);
+                maskScript.visionSourcesBlue.Add(newBlock);
                 newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
             if (Input.GetKeyDown(KeyCode.Alpha4))
             {
                 newBlock = Instantiate(purpleToSpawn, new Vector2(0,0), Quaternion.identity);
-                maskScript.visionSources.Add(newBlock);
+                maskScript.visionSourcesBlue.Add(newBlock);
                 newBlock.transform.position = new Vector2(GetMousePos().x, GetMousePos().y);
             }
 
