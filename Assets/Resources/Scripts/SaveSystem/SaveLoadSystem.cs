@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 using System.IO;
 using System.Collections.Generic;
@@ -7,10 +8,24 @@ public class SaveLoadSystem : MonoBehaviour
 {
     private List<Transform> blocks = new List<Transform>();
 
-    public GameObject menu;
-    public GameObject desktop;
-    public GameObject backPanel;
-    public GameObject quit;
+    public GameObject saveQuit;
+
+    public static bool loadOnScene;
+
+    public static string prevScene;
+
+    void Awake(){
+        if(gameObject.name == "Load" || gameObject.name == "Button" ){
+            Debug.Log(prevScene);
+            Debug.Log(loadOnScene);
+            if(SceneManager.GetActiveScene().name == "Game" && (loadOnScene || prevScene == "Game")){
+                LoadGame();
+                loadOnScene = false;
+            }
+
+            prevScene = SceneManager.GetActiveScene().name;
+        }
+    }
 
     void setupBlocks()
     {
@@ -44,9 +59,10 @@ public class SaveLoadSystem : MonoBehaviour
                 Quaternion rotation = block.rotation;
                 string name = block.gameObject.name;
                 SpriteRenderer tiredness = block.gameObject.GetComponentsInChildren<SpriteRenderer>()[1];
+                SpriteRenderer ammo = block.gameObject.GetComponentsInChildren<SpriteRenderer>()[2];
                 string health = block.gameObject.GetComponentInChildren<TextMeshProUGUI>(true).text;
 
-                blockDataList.Add(new GameInfo(position, rotation, name, tiredness, health));
+                blockDataList.Add(new GameInfo(position, rotation, name, tiredness.color, ammo.color, health));
             }
         }
 
@@ -64,15 +80,9 @@ public class SaveLoadSystem : MonoBehaviour
             string json = File.ReadAllText(path);
             BlockDataList blockDataList = JsonUtility.FromJson<BlockDataList>(json);
 
-            // Loop through all blocks and apply their saved position and rotation
-            // for (int i = 0; i < blockDataList.blocks.Count; i++)
-            // {
-            //     blocks[i].transform.position = blockDataList.blocks[i].position;
-            //     blocks[i].transform.rotation = blockDataList.blocks[i].rotation;
-            //     blocks[i].tag = blockDataList.blocks[i].type;
-            // }
             foreach (GameInfo block in blockDataList.blocks)
             {
+
                 block.type = block.type.Split('(')[0];
                 GameObject b = Instantiate(Resources.Load<GameObject>("Images/Pieces/Prefabs/" + block.type), block.position, block.rotation);
 
@@ -81,7 +91,9 @@ public class SaveLoadSystem : MonoBehaviour
                 b.GetComponentInChildren<Canvas>().enabled = true;
 
                 b.gameObject.GetComponent<Drag>().loaded = true;
-                b.GetComponentsInChildren<SpriteRenderer>()[1].color = block.tiredness.color;
+
+                b.GetComponentsInChildren<SpriteRenderer>()[1].color = block.tiredness;
+                b.GetComponentsInChildren<SpriteRenderer>()[2].color = block.ammo;
 
                 b.gameObject.GetComponentInChildren<TextMeshProUGUI>(true).text = block.health;
                 b.gameObject.GetComponent<Drag>().troops = int.Parse(block.health);
@@ -108,10 +120,7 @@ public class SaveLoadSystem : MonoBehaviour
 
     public void saveAndQuit()
     {
-        menu.SetActive(!menu.activeSelf);
-        desktop.SetActive(!desktop.activeSelf);
-        backPanel.SetActive(!backPanel.activeSelf);
-        quit.SetActive(!quit.activeSelf);
+        saveQuit.SetActive(!saveQuit.activeSelf);
     }
 
     [System.Serializable]

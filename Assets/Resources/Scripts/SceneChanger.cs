@@ -45,11 +45,12 @@ public class SceneChanger : MonoBehaviour
         return true;
     }
 
-    public void openGame()
+    public void openGame(bool load)
     {
         if (collectInputs())
         {
             SceneManager.LoadScene("Scenes/Game");
+            SaveLoadSystem.loadOnScene = load;
         }
         else
         {

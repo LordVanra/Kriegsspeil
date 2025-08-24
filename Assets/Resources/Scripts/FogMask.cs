@@ -199,7 +199,7 @@ public class FogMask : MonoBehaviour
                         int index = pixelY * textureSize + pixelX;
                         fogColors[index] = new Color32(0, 0, 0, 0);
                     }
-                    else if ((x * Mathf.Sin(Mathf.Deg2Rad * -theta) + 50) / Mathf.Cos(Mathf.Deg2Rad * -theta) < y && (x * Mathf.Sin(Mathf.Deg2Rad * -theta) - 125) / Mathf.Cos(Mathf.Deg2Rad * -theta) > y) //TODO: DEBUG
+                    else if ((x * Mathf.Sin(Mathf.Deg2Rad * -theta) + 50) / Mathf.Cos(Mathf.Deg2Rad * -theta) < y && (x * Mathf.Sin(Mathf.Deg2Rad * -theta) - 125) / Mathf.Cos(Mathf.Deg2Rad * -theta) > y) 
                     {
                         int index = pixelY * textureSize + pixelX;
                         fogColors[index] = new Color32(0, 0, 0, 0);
@@ -232,7 +232,7 @@ public class FogMask : MonoBehaviour
                     if(add && !EventSystem.current.IsPointerOverGameObject()){
                         fogColors[index] = new Color32(0, 0, 0, 0);
                     }
-                    else{
+                    else if (!EventSystem.current.IsPointerOverGameObject()){
                         left = fogColors[(pixelY * textureSize + pixelX)/2];
                         n = (byte)UnityEngine.Random.Range(-3, 3);
                         left.r += n;

@@ -5,6 +5,7 @@ public class SettingsManager : MonoBehaviour
 
     private GameObject settings;
     private GameObject settingsBG;
+    private GameObject saveQuit;
     private GameObject mainCamera;
     private Camera cameraObj;
 
@@ -12,11 +13,13 @@ public class SettingsManager : MonoBehaviour
     {
        
         settings = GameObject.Find("Settings");
+        saveQuit = GameObject.Find("SaveQuit");
         settingsBG = GameObject.Find("SettingsBG");
         mainCamera = GameObject.Find("Main Camera");
         cameraObj = mainCamera.GetComponent<Camera>();
         if (this.name == "Button")
         {
+            saveQuit.SetActive(false);
             settings.SetActive(false);
             settingsBG.SetActive(false);
         }
@@ -45,10 +48,10 @@ public class SettingsManager : MonoBehaviour
         }
         CameraBehavior.settingsClosed = !CameraBehavior.settingsClosed;
 
-        GameObject.Find("ToMenu").SetActive(false);
-        GameObject.Find("ToDesktop").SetActive(false);
-        GameObject.Find("SaveQuitBG").SetActive(false);
-        GameObject.Find("SaveQuitX").SetActive(false);
+        // GameObject.Find("ToMenu").SetActive(false);
+        // GameObject.Find("ToDesktop").SetActive(false);
+        // GameObject.Find("SaveQuitBG").SetActive(false);
+        // GameObject.Find("SaveQuitX").SetActive(false);
     }
 
 }

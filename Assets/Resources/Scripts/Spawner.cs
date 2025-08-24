@@ -43,11 +43,20 @@ public class Spawner : MonoBehaviour{
                 {
                     for (int j = 0; j < SceneChanger.spawnValues[i]; j++)
                     {
-                        newBlock = Instantiate(blockArr[i], new Vector2(n, 0f), Quaternion.identity);
+                        newBlock = Instantiate(blockArr[i], new Vector2(0f, 0f), Quaternion.identity);
+                        if(i % 2 == 0){
+                            maskScript.visionSourcesRed.Add(newBlock);
+                            newBlock.transform.position = new Vector2(n, 0f);
+                        }
+                        else{
+                            maskScript.visionSourcesBlue.Add(newBlock);
+                            newBlock.transform.position = new Vector2(n, 0f);
+                        }
                         n += 1.5f;
                     }
                 }
                 catch (System.NullReferenceException) { }
+                catch (System.IndexOutOfRangeException){ }
                 catch (System.Exception e)
                 {
                     Debug.Log(e.Message);
