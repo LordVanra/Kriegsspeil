@@ -4,9 +4,10 @@ public class CameraBehavior : MonoBehaviour
 {
 
     private Camera cam;
-    private float speedMultiplier = 8f;
+    public float speedMultiplier = 8f;
     public static bool settingsClosed = true;
     public static bool combatClosed = true;
+    public static bool popupClosed = true;
 
     void Start()
     {
@@ -18,14 +19,14 @@ public class CameraBehavior : MonoBehaviour
 
     void Update()
     {
-        if (settingsClosed && combatClosed)
+        if (settingsClosed && combatClosed && popupClosed)
         {
 
             float scroll = Input.GetAxis("Mouse ScrollWheel");
 
             if (scroll != 0)
             {
-                cam.orthographicSize -= scroll * 2f;
+                cam.orthographicSize -= scroll * speedMultiplier * 0.25f;
                 cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1f, 40f);
             }
 

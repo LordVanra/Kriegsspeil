@@ -8,8 +8,9 @@ public class GameInfo{
     public Color tiredness;
     public Color ammo;
     public string health;
+    public Vector2 startPos;
 
-    public GameInfo(Vector3 position, Quaternion rotation, string type, Color tiredness, Color ammo, string health)
+    public GameInfo(Vector3 position, Quaternion rotation, string type, Color tiredness, Color ammo, string health, Vector2 startPos)
     {
         this.position = position;
         this.rotation = rotation;
@@ -17,5 +18,6 @@ public class GameInfo{
         this.tiredness = tiredness;
         this.ammo = ammo;
         this.health = health;
+        this.startPos = startPos;
     }
 }

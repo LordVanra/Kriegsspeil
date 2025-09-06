@@ -1,0 +1,82 @@
+{
+  "events": [
+    {
+      "id": "intel_breach_red",
+      "title": "Intelligence Breakthrough",
+      "desc": "Red's reconnaissance team has intercepted enemy communications. Reveal blue's general's location.",
+      "length": 1
+    },
+    {
+      "id": "intel_breach_blue",
+      "title": "Intelligence Breakthrough",
+      "desc": "Blue's reconnaissance team has intercepted enemy communications. Reveal red's general's location.",
+      "length": 1
+    },
+    {
+      "id": "weather_storm",
+      "title": "Severe Weather",
+      "desc": "Heavy storms reduce visibility and mobility. Half movement range and add 2 disadvantage for all combat for 2 turns.",
+      "length": 2
+    },
+    {
+      "id": "reinforcements_blue",
+      "title": "Emergency Reinforcements",
+      "desc": "Reinforcements have arrived. Add some units (as decided by umpire) to blue team.",
+      "length": 1
+    },
+    {
+      "id": "reinforcements_red",
+      "title": "Emergency Reinforcements",
+      "desc": "Reinforcements have arrived. Add some units (as decided by umpire) to red team.",
+      "length": 1
+    },
+    {
+      "id": "morale_boost_red",
+      "title": "Heroic Action",
+      "desc": "A red unit's exceptional performance inspires nearby forces. Choose one unit and grant 1 advantage to all units near that one for 3 turns.",
+      "length": 3
+    },
+    {
+      "id": "morale_boost_blue",
+      "title": "Heroic Action",
+      "desc": "A blue unit's exceptional performance inspires nearby forces. Choose one unit and grant 1 advantage to all units near that one for 3 turns.",
+      "length": 3
+    },
+    {
+      "id": "artillery_malfunction_red",
+      "title": "Technical Failure",
+      "desc": "Critical equipment malfunction affects red's artillery. Pick one artillery which cannot attack for 2 turns.",
+      "length": 2
+    },
+    {
+      "id": "artillery_malfunction_blue",
+      "title": "Technical Failure",
+      "desc": "Critical equipment malfunction affects blue's artillery. Pick one artillery which cannot attack for 2 turns.",
+      "length": 2
+    },
+    {
+      "id": "powder_wet_red",
+      "title": "Gunpowder Dampened",
+      "desc": "Rain has soaked red's ammunition supplies. All musket and artillery units suffer one disadvantage for 2 turns.",
+      "length": 2
+    },
+    {
+      "id": "powder_wet_blue",
+      "title": "Gunpowder Dampened",
+      "desc": "Rain has soaked blue's ammunition supplies. All musket and artillery units suffer one disadvantage for 2 turns.",
+      "length": 2
+    },
+    {
+      "id": "sabotage_success_blue",
+      "title": "Sabotage Mission",
+      "desc": "Blue's agents sabotage blue equipment. Two random red units cannot fire this turn.",
+      "length": 1
+    },
+    {
+      "id": "sabotage_success_red",
+      "title": "Sabotage Mission",
+      "desc": "Red's agents sabotage blue equipment. Two random blue units cannot fire this turn.",
+      "length": 1
+    }
+  ]
+}
