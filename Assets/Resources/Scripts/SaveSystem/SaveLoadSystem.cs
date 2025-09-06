@@ -15,7 +15,7 @@ public class SaveLoadSystem : MonoBehaviour
     public static bool loadOnScene;
     public static string prevScene;
 
-    private int slot = 1;
+    private int slot;
 
     void Awake(){
         if(gameObject.name == "Load" || gameObject.name == "Button" ){
@@ -91,21 +91,27 @@ public class SaveLoadSystem : MonoBehaviour
 
         string fileName;
 
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
             fileName = "/gameSave_Editor";
-        #elif UNITY_STANDALONE
+#elif UNITY_STANDALONE
             fileName = "/gameSave_Standalone";
-        #elif UNITY_ANDROID
+#elif UNITY_ANDROID
             fileName = "/gameSave_Android";
-        #elif UNITY_IOS
+#elif UNITY_IOS
             fileName = "/gameSave_iOS";
-        #endif
+#endif
+
+        Debug.Log("Slot set to: " + slot);
+        Debug.Log("Slot set to: " + this.slot);
 
         string path = Application.persistentDataPath + fileName + slot + ".json";
+
+        Debug.Log(path);
 
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
+            Debug.Log(json);
             BlockDataList blockDataList = JsonUtility.FromJson<BlockDataList>(json);
 
             FogMask fog = GameObject.Find("Fog").GetComponent<FogMask>();
@@ -174,8 +180,11 @@ public class SaveLoadSystem : MonoBehaviour
         loadMenu.SetActive(!loadMenu.activeSelf);
     }
 
-    public void setSlot(int slot){
+    public void setSlot(int slot)
+    {
         this.slot = slot;
+        Debug.Log("Slot Changed to:" + slot);
+        Debug.Log("Slot Changed to: " + this.slot);
     }
 
     [System.Serializable]
