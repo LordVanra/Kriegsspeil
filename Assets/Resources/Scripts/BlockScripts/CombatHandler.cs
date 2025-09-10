@@ -12,6 +12,8 @@ public class CombatHandler : MonoBehaviour
     private Slider againstRiver;
     private Slider flanking;
     private Slider topology;
+    private Slider charging;
+    private Slider otherAdv;
     private string attacker;
     private GameObject defender;
     private int advantages;
@@ -49,9 +51,11 @@ public class CombatHandler : MonoBehaviour
         cameraObj = mainCamera.GetComponent<Camera>();
 
         flanking = GameObject.Find("Flanking").GetComponent<Slider>();
+        charging = GameObject.Find("Charging").GetComponent<Slider>();
         topology = GameObject.Find("Topology").GetComponent<Slider>();
         inRiver = GameObject.Find("InRiver").GetComponent<Slider>();
         againstRiver = GameObject.Find("AgainstRiver").GetComponent<Slider>();
+        otherAdv = GameObject.Find("OtherAdv").GetComponent<Slider>();
 
         combat.SetActive(false);
         combatBG.SetActive(false);
@@ -75,6 +79,11 @@ public class CombatHandler : MonoBehaviour
             }
         }
 
+        if (enable.value == 1f)
+        {
+            selectedObjects.Clear();
+        }
+
         if (Input.GetKey(KeyCode.Escape) && combat.activeSelf)
         {
             toggleCombat();
@@ -82,7 +91,7 @@ public class CombatHandler : MonoBehaviour
     }
 
     public int getAdvantages(int attackers){
-        int adv = (int) (flanking.value + topology.value + againstRiver.value * attackers - inRiver.value);
+        int adv = (int) (flanking.value + topology.value - againstRiver.value * attackers + inRiver.value + charging.value + otherAdv.value);
         if(defender.GetComponent<Drag>().disOrgMult == 0.5f){
             adv += 1;
         }
@@ -94,7 +103,7 @@ public class CombatHandler : MonoBehaviour
 
         toggleCombat();
 
-        int newCount = doCombat(attackers.ToArray(), int.Parse(defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text), defender.name.Split(' ')[1], advantages);
+        int newCount = doCombat(attackers.ToArray(), int.Parse(defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text), defender.name.Split(' ')[2], advantages);
         if(defender.name.Split(' ')[1] == "Off(Clone)"){
             int n = 0;
             int m = int.Parse(defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text);
@@ -168,7 +177,7 @@ public class CombatHandler : MonoBehaviour
             //Debug.Log(fired.Contains(defender));
             toggleCombat();
 
-            flanking.maxValue = topology.maxValue = inRiver.maxValue = selectedObjects.Count;
+            flanking.maxValue = topology.maxValue = againstRiver.maxValue = charging.maxValue = selectedObjects.Count;
 
         }
     }
@@ -196,7 +205,7 @@ public class CombatHandler : MonoBehaviour
                     }
                     else
                     {
-                        rAttackers += block.str * 1.5f;
+                        rAttackers += block.str * 2f;
                         distance += block.dist;
                         c++;
                     }
@@ -228,7 +237,7 @@ public class CombatHandler : MonoBehaviour
                     break;
 
                 case "Cav(Clone)":
-                    mAttackers += block.str * 4f;
+                    mAttackers += block.str * 3.5f;
                     disOrg = true;
 
                     for (int i = 0; i < generals.Length; i++)
@@ -266,30 +275,34 @@ public class CombatHandler : MonoBehaviour
         rAttackers *= Mathf.Pow(1.1f, adv);
         mAttackers *= Mathf.Pow(1.1f, adv);
         double rangedCasualties = Mathf.Pow((rAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * (Math.Exp(-distance / 15f) + 1f / ((4f * distance + 1f))) * 5f;
-        double meleeCasualties = Mathf.Pow((mAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * 10f;
+        double meleeCasualties = Mathf.Pow((mAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * 5f;
         double survivors = def - def * (rangedCasualties + meleeCasualties) * 0.01f;
 
         float threshold = 0f;
         switch (defType)
         {
-            case "Inf":
+            case "Inf(Clone)":
                 threshold = 60f;
                 break;
-            case "Art":
+            case "Art(Clone)":
                 threshold = 7f;
                 break;
-            case "Cav":
+            case "Cav(Clone)":
                 threshold = 30f;
                 break;
-            case "Off":
+            case "Off(Clone)":
                 threshold = 22f;
                 break;
-            case "Skirm":
+            case "Skirm(Clone)":
                 threshold = 40f;
                 break;
         }
+        Debug.Log(survivors);
+        Debug.Log(defType);
+        Debug.Log(threshold);
+        Debug.Log(threshold * Mathf.Pow(1.1f, adv));
 
-        if (survivors < threshold * Mathf.Pow(1.1f, -adv))
+        if (survivors < threshold * Mathf.Pow(1.1f, adv))
         {
             survivors = 0;
         }

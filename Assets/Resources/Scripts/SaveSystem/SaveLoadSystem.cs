@@ -156,6 +156,9 @@ public class SaveLoadSystem : MonoBehaviour
 
     private void destroyPrefabs()
     {
+        GameObject.Find("Fog").GetComponent<FogMask>().visionSourcesRed.Clear();
+        GameObject.Find("Fog").GetComponent<FogMask>().visionSourcesBlue.Clear();
+        
         string[] tags = { "Infantry", "Artillery", "Cavalry", "Officer", "Skirmisher" };
         for (int i = 0; i < 5; i++)
         {

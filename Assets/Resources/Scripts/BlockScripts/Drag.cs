@@ -96,6 +96,10 @@ public class Drag : MonoBehaviour
             {
                 transform.eulerAngles = new Vector3(0f, 0f, transform.eulerAngles.z - 0.5f);
             }
+            if (Input.GetKey(KeyCode.X))
+            {
+                Destroy(gameObject);
+            }
         }
 
         text1.transform.position = transform.position + new Vector3(-0.5f * Mathf.Sin(Mathf.Deg2Rad * transform.eulerAngles.z), 0.5f * Mathf.Cos(Mathf.Deg2Rad * transform.eulerAngles.z), 0f);
