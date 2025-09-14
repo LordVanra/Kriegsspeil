@@ -79,7 +79,7 @@ public class CombatHandler : MonoBehaviour
             }
         }
 
-        if (enable.value == 1f)
+        if (enable.value == 0f)
         {
             selectedObjects.Clear();
         }
@@ -110,9 +110,6 @@ public class CombatHandler : MonoBehaviour
             for(int i = 0; i < m - newCount; i++){
                 n = UnityEngine.Random.Range(1, m);
                 m--;
-                if(n == 1 || n == 2){
-                    Debug.Log("AE");
-                }
             }
         }
         defender.GetComponentInChildren<Canvas>().GetComponentInChildren<TextMeshProUGUI>(true).text = newCount.ToString();
@@ -237,7 +234,7 @@ public class CombatHandler : MonoBehaviour
                     break;
 
                 case "Cav(Clone)":
-                    mAttackers += block.str * 3.5f;
+                    mAttackers += block.str * 5f;
                     disOrg = true;
 
                     for (int i = 0; i < generals.Length; i++)
@@ -277,6 +274,7 @@ public class CombatHandler : MonoBehaviour
         double rangedCasualties = Mathf.Pow((rAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * (Math.Exp(-distance / 15f) + 1f / ((4f * distance + 1f))) * 5f;
         double meleeCasualties = Mathf.Pow((mAttackers / def), 0.8f) * (0.1 * UnityEngine.Random.Range(1, 7) + 0.6f) * 5f;
         double survivors = def - def * (rangedCasualties + meleeCasualties) * 0.01f;
+        Debug.Log("Commited combat with " + rangedCasualties + "ranged casualties and " + meleeCasualties + "melee casualties with " + attackers.Length + " attackers.");
 
         float threshold = 0f;
         switch (defType)
@@ -297,10 +295,9 @@ public class CombatHandler : MonoBehaviour
                 threshold = 40f;
                 break;
         }
-        Debug.Log(survivors);
-        Debug.Log(defType);
-        Debug.Log(threshold);
-        Debug.Log(threshold * Mathf.Pow(1.1f, adv));
+        // Debug.Log(survivors);
+        // Debug.Log(defType);
+        // Debug.Log(threshold * Mathf.Pow(1.1f, adv));
 
         if (survivors < threshold * Mathf.Pow(1.1f, adv))
         {

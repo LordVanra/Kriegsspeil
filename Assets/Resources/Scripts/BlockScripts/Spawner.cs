@@ -44,13 +44,11 @@ public class Spawner : MonoBehaviour{
                     for (int j = 0; j < SceneChanger.spawnValues[i]; j++)
                     {
                         newBlock = Instantiate(blockArr[i], new Vector2(0f, 0f), Quaternion.identity);
-                        Debug.Log(i);
                         if(i % 2 == 0){
                             maskScript.visionSourcesRed.Add(newBlock);
                             newBlock.transform.position = new Vector2(n, 0f);
                         }
                         else{
-                            Debug.Log("A blue hole");
                             maskScript.visionSourcesBlue.Add(newBlock);
                             newBlock.transform.position = new Vector2(n, 0f);
                         }

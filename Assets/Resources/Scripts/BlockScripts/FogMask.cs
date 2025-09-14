@@ -206,6 +206,7 @@ public class FogMask : MonoBehaviour
     void DrawVisionCircle(int centerX, int centerY, float theta)
     {
         // Clamp radius to reasonable size
+        
         int radiusInt = 120;
         int radiusSquared = radiusInt * radiusInt;
 

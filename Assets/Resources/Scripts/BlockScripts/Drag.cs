@@ -116,7 +116,6 @@ public class Drag : MonoBehaviour
     {
         // paceLeft = MAXPACE;
         startPos = new Vector2(transform.position.x, transform.position.y);
-        Debug.Log("Hi");
     }
 
     public void updateTiredness()

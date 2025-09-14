@@ -19,8 +19,6 @@ public class SaveLoadSystem : MonoBehaviour
 
     void Awake(){
         if(gameObject.name == "Load" || gameObject.name == "Button" ){
-            Debug.Log(prevScene);
-            Debug.Log(loadOnScene);
             if(SceneManager.GetActiveScene().name == "Game" && (loadOnScene || prevScene == "Game")){
                 LoadGame();
                 loadOnScene = false;
@@ -92,7 +90,7 @@ public class SaveLoadSystem : MonoBehaviour
         string fileName;
 
 #if UNITY_EDITOR
-            fileName = "/gameSave_Editor";
+            fileName = "/gameSave_Standalone";
 #elif UNITY_STANDALONE
             fileName = "/gameSave_Standalone";
 #elif UNITY_ANDROID
@@ -101,27 +99,23 @@ public class SaveLoadSystem : MonoBehaviour
             fileName = "/gameSave_iOS";
 #endif
 
-        Debug.Log("Slot set to: " + slot);
-        Debug.Log("Slot set to: " + this.slot);
-
         string path = Application.persistentDataPath + fileName + slot + ".json";
-
-        Debug.Log(path);
 
         if (File.Exists(path))
         {
             string json = File.ReadAllText(path);
-            Debug.Log(json);
             BlockDataList blockDataList = JsonUtility.FromJson<BlockDataList>(json);
 
             FogMask fog = GameObject.Find("Fog").GetComponent<FogMask>();
+
+            fog.visionSourcesBlue.Clear();
+            fog.visionSourcesRed.Clear();
 
             foreach (GameInfo block in blockDataList.blocks)
             {
 
                 block.type = block.type.Split('(')[0];
                 GameObject b = Instantiate(Resources.Load<GameObject>("Images/Pieces/Prefabs/" + block.type), block.position, block.rotation);
-
                 if (block.type.Split(' ')[0] == "R")
                 {
                     fog.visionSourcesRed.Add(b);
@@ -143,8 +137,9 @@ public class SaveLoadSystem : MonoBehaviour
                 b.gameObject.GetComponentInChildren<TextMeshProUGUI>(true).text = block.health;
                 b.gameObject.GetComponent<Drag>().troops = int.Parse(block.health);
                 b.gameObject.GetComponent<Drag>().startPos = block.startPos;
-                Debug.Log(b.gameObject.GetComponent<Drag>().startPos);
             }
+            
+                
 
             GameObject.Find("PassTurn").GetComponent<PassTurn>().turn = blockDataList.turn;
         }
@@ -186,8 +181,7 @@ public class SaveLoadSystem : MonoBehaviour
     public void setSlot(int slot)
     {
         this.slot = slot;
-        Debug.Log("Slot Changed to:" + slot);
-        Debug.Log("Slot Changed to: " + this.slot);
+        // Debug.Log("Slot Changed to: " + this.slot);
     }
 
     [System.Serializable]

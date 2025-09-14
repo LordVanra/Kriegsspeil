@@ -83,12 +83,10 @@ public class PassTurn : MonoBehaviour
     {
         n -= 1;
 
-        Debug.Log(activeEvents.Count);
         foreach (GameObject activeEvent in activeEvents)
         {
             if (activeEvents.IndexOf(activeEvent) > destroyedN)
             {
-                Debug.Log("Pre: " + activeEvent.GetComponent<RectTransform>().offsetMax.y);
                 activeEvent.GetComponent<RectTransform>().offsetMax = new Vector2(activeEvent.GetComponent<RectTransform>().offsetMax.x, -100 * (activeEvents.IndexOf(activeEvent) - 1) - 200);
                 activeEvent.GetComponent<RectTransform>().offsetMin = new Vector2(activeEvent.GetComponent<RectTransform>().offsetMin.x, -100 * (activeEvents.IndexOf(activeEvent) - 1) + 840);
 
